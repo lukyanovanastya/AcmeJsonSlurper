@@ -1,6 +1,12 @@
+import groovy.json.JsonOutput;
+
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AcmeJsonPath<Element> extends Stack<Element>{
+
+    int indent=0;
 
     public AcmeJsonPath(){super();}
 
@@ -18,10 +24,11 @@ public class AcmeJsonPath<Element> extends Stack<Element>{
 
     /*
     public Element push(int index, String key){
-        Element e = new Element(index, key);
-        return this.push(e);
+        AcmeJsonPath.Element e = new AcmeJsonPath.Element(index, key);
+        return this.push((Element) e);
     }
     */
+
 
 
 
@@ -39,7 +46,7 @@ public class AcmeJsonPath<Element> extends Stack<Element>{
         }
 
         public String toString(){
-            if(isKey) return"."+key;
+            if(isKey) return"."+ key;
             else return "["+index+"]";
         }
     }
