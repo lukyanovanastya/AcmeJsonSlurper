@@ -18,6 +18,11 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
         this.writer=writer;
     }
 
+    public AcmeJsonWriter setIndent(boolean space){
+        this.space = space;
+        return this;
+    }
+
     @Override
     public AcmeJsonPath onObjectStart(AcmeJsonPath<AcmeJsonPath.Element> jpath) {
         String str="";
@@ -28,8 +33,8 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
                 str+="\""+jpath.peek().key+"\":";
                 if(space) jpath.indent += 2;
             }
-            if(space) jpath.indent++;
         }
+        if(space) jpath.indent++;
         str+="{";
         try {
             writer.write(str);
@@ -65,8 +70,8 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
                 str+="\""+jpath.peek().key+"\":";
                 if(space) jpath.indent += 2;
             }
-            if(space) jpath.indent++;
         }
+        if(space) jpath.indent++;
         str+="[";
         try {
             writer.write(str);

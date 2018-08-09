@@ -19,11 +19,15 @@ class AcmeJsonTest extends GroovyTestCase {
     */
 
     public void testAcmeParser(){
-        println "was:\n"+json +"\n"
-        println "became:"
-
-        //actual code
-        println new AcmeJsonParser().each(path){jpath, value->1111}.each{jpath, value->value=="z"? "zzz" : value}.target(new StringWriter()).parseText(json).toString();
+        println "Parser:"
+        println "was:\n"+json+"\nout:"
+        println new AcmeJsonParser().each(path){jpath, value->1111}.each{jpath, value->value=="z"? "zzz" : value}.target(new StringWriter(), true).parseText(json).toString();
     }
 
+
+    public void testAcmeOutput(){
+        println "Output:"
+        println "was:\n"+json+"\nout:"
+        println new AcmeJsonOutput().setIndent(true).parse(new AcmeJsonParser().parseText(json))
+    }
 }
