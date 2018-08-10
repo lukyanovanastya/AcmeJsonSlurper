@@ -1,10 +1,6 @@
-import groovy.json.JsonOutput;
-
 import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class AcmeJsonPath<Element> extends Stack<Element>{
+public class AcmeJsonPath extends Stack<AcmeJsonPath.Element>{
 
     int indent=0;
 
@@ -22,12 +18,11 @@ public class AcmeJsonPath<Element> extends Stack<Element>{
 
 
 
-    /*
+
     public Element push(int index, String key){
-        AcmeJsonPath.Element e = new AcmeJsonPath.Element(index, key);
-        return this.push((Element) e);
+        Element e = new Element(index, key);
+        return (Element)this.push(e);
     }
-    */
 
 
 

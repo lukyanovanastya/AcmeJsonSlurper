@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 class AcmeJsonTest extends GroovyTestCase {
 
     String json = "{\"o\":{\"a\":1,\"b\":[21,{\"22\":2},23,24],\"c\":3,\"d\":\"z\"}}"
-    String path = "\$.o.b[0]";
+    String path = "\$.o.b";
 
     /*
     public void testClassic(){
@@ -18,16 +18,22 @@ class AcmeJsonTest extends GroovyTestCase {
     }
     */
 
-    public void testAcmeParser(){
-        println "Parser:"
+    public void testAcmeParserValue(){
+        println "\nParser using onValue:"
         println "was:\n"+json+"\nout:"
-        println new AcmeJsonParser().each(path){jpath, value->1111}.each{jpath, value->value=="z"? "zzz" : value}.target(new StringWriter(), true).parseText(json).toString();
+        println new AcmeJsonParser().onValue(path){jpath, value->1111}.onValue{jpath, value->value=="z"? "zzz" : value}.target(new StringWriter(), true).parseText(json)
     }
 
 
     public void testAcmeOutput(){
-        println "Output:"
+        println "\nOutput:"
         println "was:\n"+json+"\nout:"
-        println new AcmeJsonOutput().setIndent(true).parse(new AcmeJsonParser().parseText(json))
+        println new AcmeJsonOutput(new AcmeJsonParser().parseText(json)).setIndent(true).writeTo(new StringWriter())
+    }
+
+    public void testAcmeParserEach(){
+        println "\nParser using each:"
+        println "jpath: "+path
+        new AcmeJsonParser().each(path){jpath, obj->println new AcmeJsonOutput(obj).setIndent(true).writeTo(new StringWriter())}.parseText(json);
     }
 }

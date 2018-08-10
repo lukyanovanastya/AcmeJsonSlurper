@@ -24,7 +24,7 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
     }
 
     @Override
-    public AcmeJsonPath onObjectStart(AcmeJsonPath<AcmeJsonPath.Element> jpath) {
+    public AcmeJsonPath onObjectStart(AcmeJsonPath jpath) {
         String str="";
         if(jpath.size()>0) {
             if(jpath.peek().index>0) str+=",";
@@ -46,7 +46,7 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
 
 
     @Override
-    public AcmeJsonPath onObjectEnd(AcmeJsonPath<AcmeJsonPath.Element> jpath) {
+    public AcmeJsonPath onObjectEnd(AcmeJsonPath jpath) {
         if(space) jpath.indent--;
         String str="";
         if(space) str+=printIndent(jpath);
@@ -61,13 +61,13 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
     }
 
     @Override
-    public AcmeJsonPath onArrayStart(AcmeJsonPath<AcmeJsonPath.Element> jpath) {
+    public AcmeJsonPath onArrayStart(AcmeJsonPath jpath) {
         String str="";
         if(jpath.size()>0) {
             if(jpath.peek().index>0) str+=",";
             if(space) str+=printIndent(jpath);
             if(jpath.peek().isKey) {
-                str+="\""+jpath.peek().key+"\":";
+                str+=JsonOutput.toJson(jpath.peek().key)+":";
                 if(space) jpath.indent += 2;
             }
         }
@@ -82,7 +82,7 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
     }
 
     @Override
-    public AcmeJsonPath onArrayEnd(AcmeJsonPath<AcmeJsonPath.Element> jpath) {
+    public AcmeJsonPath onArrayEnd(AcmeJsonPath jpath) {
         if(space) jpath.indent--;
         String str="";
         if(space) str+=printIndent(jpath);
@@ -99,7 +99,7 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
 
 
     @Override
-    public AcmeJsonPath onValue(AcmeJsonPath<AcmeJsonPath.Element> jpath, Object value) {
+    public AcmeJsonPath onValue(AcmeJsonPath jpath, Object value) {
         String str = "";
         if (jpath.peek().index > 0) str += ",";
         if(space) str+=printIndent(jpath);
@@ -119,7 +119,7 @@ public class AcmeJsonWriter implements AcmeJsonHandler{
         return writer;
     }
 
-    private String printIndent (AcmeJsonPath<AcmeJsonPath.Element> jpath){
+    private String printIndent (AcmeJsonPath jpath){
         String str="\n";
         for (int i = 0; i < jpath.indent; i++) {
             str += "  ";
